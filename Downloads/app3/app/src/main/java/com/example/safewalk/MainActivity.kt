@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnNav = findViewById<CardView>(R.id.btnNav)
         val btnVoice = findViewById<CardView>(R.id.btnSOSManual)
+        val btnContacts = findViewById<CardView>(R.id.btnContactos)
         val navZonas = findViewById<LinearLayout>(R.id.navZonas) // Asegúrate de que el ID coincida en el XML
         // Ruta segura
 
@@ -33,6 +34,16 @@ class MainActivity : AppCompatActivity() {
         btnVoice.setOnClickListener {
 
             val intent = Intent(this, VoiceEmergencyActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnContacts.setOnClickListener {
+
+            val intent = Intent(
+                this,
+                TrustedContactsActivity::class.java
+            )
+
             startActivity(intent)
         }
 
