@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.safewalk"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,9 @@
             android:name=".MainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".VoiceEmergencyActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

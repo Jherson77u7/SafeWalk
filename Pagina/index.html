@@ -1,0 +1,231 @@
+# index.html
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeWalk - Seguridad Inteligente</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="safewalk-style.css">
+</head>
+<body>
+
+  <div class="background-glow"></div>
+
+  <header>
+    <div class="logo">SafeWalk</div>
+
+    <nav>
+      <a href="#features">Funciones</a>
+      <a href="#how">Cómo funciona</a>
+      <a href="#about">Proyecto</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+
+    <div class="hero-text">
+      <h1>
+        Camina seguro con <span>SafeWalk</span>
+      </h1>
+
+      <p>
+        SafeWalk es una aplicación móvil enfocada en la seguridad urbana.
+        Permite activar alertas de emergencia, utilizar reconocimiento de voz,
+        analizar zonas peligrosas y acceder a rutas más seguras en tiempo real.
+      </p>
+
+      <div class="buttons">
+        <a href="#features" class="btn btn-primary">Explorar funciones</a>
+
+        <a href="https://github.com/Jherson77u7/SafeWalk"
+           class="btn btn-secondary"
+           target="_blank">
+          Ver GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-frame">
+        <div class="phone-screen">
+
+          <div class="screen-title">
+            SafeWalk Emergency
+          </div>
+
+          <div class="voice-box">
+            <div class="mic">🎤</div>
+
+            <div class="voice-text">
+              “Estoy en la calle Aroma y necesito ayuda”
+            </div>
+          </div>
+
+          <div class="voice-box">
+            ⚠ Zona con reportes recientes de incidentes nocturnos.
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="features">
+
+    <div class="section-title">
+      <h2>Funciones principales</h2>
+
+      <p>
+        La aplicación integra herramientas modernas de seguridad urbana para ayudar
+        a las personas durante trayectos nocturnos o situaciones de emergencia.
+      </p>
+    </div>
+
+    <div class="features">
+
+      <div class="card">
+        <div class="card-icon">🚨</div>
+        <h3>Modo SOS</h3>
+        <p>
+          Activa rápidamente una alerta de emergencia para notificar situaciones
+          peligrosas y compartir información importante.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎤</div>
+        <h3>Reconocimiento de voz</h3>
+        <p>
+          El usuario puede hablar directamente con la aplicación mientras camina.
+          La voz se transforma automáticamente en texto para detectar situaciones críticas.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📍</div>
+        <h3>Ubicación en tiempo real</h3>
+        <p>
+          La app utiliza geolocalización para identificar calles, zonas y puntos de riesgo
+          durante recorridos urbanos.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🗺</div>
+        <h3>Rutas seguras</h3>
+        <p>
+          SafeWalk busca ayudar a las personas a evitar zonas peligrosas mediante rutas
+          más seguras especialmente durante horarios nocturnos.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="how">
+
+    <div class="section-title">
+      <h2>¿Cómo funciona?</h2>
+
+      <p>
+        SafeWalk está diseñado para reaccionar rápidamente ante posibles situaciones
+        de peligro mientras el usuario se encuentra caminando por la ciudad.
+      </p>
+    </div>
+
+    <div class="how-it-works">
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Detectar</h3>
+        <p>
+          El usuario detecta una situación sospechosa o siente inseguridad mientras camina.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Activar</h3>
+        <p>
+          Se activa el modo de emergencia o el reconocimiento de voz mediante un botón rápido.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Analizar</h3>
+        <p>
+          La aplicación analiza el mensaje, la ubicación y posibles zonas de riesgo cercanas.
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Responder</h3>
+        <p>
+          SafeWalk muestra alertas, información preventiva y futuras opciones de ayuda automática.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="about">
+
+    <div class="section-title">
+      <h2>Sobre el proyecto</h2>
+
+      <p>
+        SafeWalk es un proyecto orientado a mejorar la seguridad urbana mediante el uso de tecnologías móviles,
+        reconocimiento de voz, geolocalización y futuras integraciones con inteligencia artificial.
+      </p>
+    </div>
+
+    <div class="features">
+
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Aplicación Android</h3>
+        <p>
+          Desarrollada en Kotlin utilizando Android Studio para dispositivos móviles Android.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>IA y análisis futuro</h3>
+        <p>
+          El proyecto contempla futuras funciones basadas en inteligencia artificial y análisis de riesgo.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🌙</div>
+        <h3>Seguridad nocturna</h3>
+        <p>
+          Pensado especialmente para personas que deben movilizarse de noche o por zonas desconocidas.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    <p>
+      SafeWalk © 2026 | Proyecto de seguridad urbana y asistencia inteligente.
+    </p>
+  </footer>
+
+</body>
+</html>
