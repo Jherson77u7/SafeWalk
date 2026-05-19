@@ -13,7 +13,7 @@
         android:id="@+id/ivLogoHeader"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="42dp"
         android:layout_marginStart="20dp"
         android:src="@drawable/logoappmovil"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         android:id="@+id/tvUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hola, Carlos Jose"
+        android:text="Hola, Jose Carlos"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -80,23 +80,84 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Tu seguridad hoy" android:textColor="@color/white" android:textStyle="bold"/>
+            <!-- LADO IZQUIERDO -->
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="15dp" android:gravity="center_vertical">
-                <ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@android:drawable/ic_menu_manage" app:tint="@color/grad_green_start" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ruta segura: 85%" android:textColor="@color/gray_text" android:layout_marginStart="10dp" android:textSize="12sp"/>
-            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp" android:gravity="center_vertical">
-                <ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@android:drawable/ic_dialog_alert" app:tint="@color/grad_red_start" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Zonas de riesgo: 3" android:textColor="@color/gray_text" android:layout_marginStart="10dp" android:textSize="12sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tu seguridad hoy"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="@color/grad_green_start" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Ruta segura: 85%"
+                        android:textColor="@color/gray_text"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@android:drawable/ic_dialog_alert"
+                        app:tint="@color/grad_red_start" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Zonas de riesgo: 3"
+                        android:textColor="@color/gray_text"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <!-- POLICÍA IA -->
+    <ImageView
+        android:id="@+id/imgPoliceAI"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/policia"
+        android:scaleType="fitCenter"
+        android:translationX="240dp"
+        android:translationY="-15dp"
+        app:layout_constraintTop_toTopOf="@id/cardStatus"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- ACCIONES RÁPIDAS -->
     <TextView
