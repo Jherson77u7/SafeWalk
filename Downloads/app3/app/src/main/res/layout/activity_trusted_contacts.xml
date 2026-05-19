@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_voice">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- BOTÓN ATRÁS -->
+
+        <ImageButton
+            android:id="@+id/btnBackContacts"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:padding="6dp"
+            android:src="@drawable/arrow_back"
+            app:tint="#FFFFFF"/>
+
+        <!-- TÍTULO -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Contactos de confianza"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mantente conectado en emergencias"
+            android:textColor="#94A3B8"
+            android:textSize="16sp"/>
+
+        <!-- BOTÓN AGREGAR -->
+
+        <Button
+            android:id="@+id/btnAddContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="+ Agregar contacto"/>
+
+        <!-- CONTENEDOR CONTACTOS -->
+
+        <LinearLayout
+            android:id="@+id/contactsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+
+</ScrollView>
