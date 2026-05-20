@@ -2,6 +2,7 @@ package com.example.safewalk
 
 import android.animation.ValueAnimator
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -221,14 +222,13 @@ class VoiceEmergencyActivity : AppCompatActivity() {
         // ALERTA AYUDA
         if (textoLower.contains("ayuda")) {
 
-            txtStatus.text =
-                "⚠ ALERTA DE AYUDA"
-
             Toast.makeText(
                 this,
-                "⚠ ALERTA DE AYUDA DETECTADA",
+                "⚠ ALERTA DETECTADA",
                 Toast.LENGTH_LONG
             ).show()
+
+            llamarContactoEmergencia()
         }
 
         // RUTA SEGURA
@@ -292,6 +292,51 @@ class VoiceEmergencyActivity : AppCompatActivity() {
 
             animator.start()
         }
+    }
+
+    private fun llamarContactoEmergencia() {
+
+        val prefs =
+            getSharedPreferences(
+                "SafeWalkContacts",
+                MODE_PRIVATE
+            )
+
+        var numeroEmergencia: String? = null
+
+        for (i in 1..3) {
+
+            val numero =
+                prefs.getString(
+                    "contacto_${i}_numero",
+                    null
+                )
+
+            if (!numero.isNullOrEmpty()) {
+
+                numeroEmergencia = numero
+                break
+            }
+        }
+
+        // Si no hay contactos -> 911
+        if (numeroEmergencia == null) {
+
+            numeroEmergencia = "911"
+        }
+
+        Toast.makeText(
+            this,
+            "🚨 Llamando a $numeroEmergencia",
+            Toast.LENGTH_LONG
+        ).show()
+
+        val intent = Intent(
+            Intent.ACTION_CALL,
+            Uri.parse("tel:$numeroEmergencia")
+        )
+
+        startActivity(intent)
     }
 
     override fun onDestroy() {
