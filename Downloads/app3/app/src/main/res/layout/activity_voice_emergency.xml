@@ -66,6 +66,20 @@
 
         <!-- BARRAS -->
 
+        <Button
+            android:id="@+id/btnRespondio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Respondió"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnNoRespondio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No respondió"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:id="@+id/audioBars"
             android:layout_width="wrap_content"

@@ -3,17 +3,13 @@ package com.example.safewalk
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import android.provider.ContactsContract
-import android.Manifest
-import android.content.pm.PackageManager
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.Manifest
+import android.content.pm.PackageManager
 
 class TrustedContactsActivity : AppCompatActivity() {
 
@@ -25,23 +21,10 @@ class TrustedContactsActivity : AppCompatActivity() {
     private val maxContactos = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trusted_contacts)
 
-        if (
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CALL_PHONE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CALL_PHONE),
-                10
-            )
-        }
+        solicitarPermiso()
 
         btnBack = findViewById(R.id.btnBackContacts)
         btnAdd = findViewById(R.id.btnAddContact)
@@ -49,217 +32,166 @@ class TrustedContactsActivity : AppCompatActivity() {
 
         cargarContactosGuardados()
 
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
         btnAdd.setOnClickListener {
-
             if (cantidadContactos >= maxContactos) {
-
-                Toast.makeText(
-                    this,
-                    "Máximo 3 contactos",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                Toast.makeText(this, "Máximo 3 contactos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             abrirContactos()
         }
     }
 
-    private fun agregarContacto(
-        nombre: String,
-        telefono: String
-    ) {
+    // ---------------- PERMISO ----------------
 
-        val indice = cantidadContactos + 1
-
-        val prefs =
-            getSharedPreferences(
-                "SafeWalkContacts",
-                MODE_PRIVATE
+    private fun solicitarPermiso() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CALL_PHONE),
+                10
             )
-
-        prefs.edit()
-            .putString(
-                "contacto_${indice}_nombre",
-                nombre
-            )
-            .putString(
-                "contacto_${indice}_numero",
-                telefono
-            )
-            .apply()
-
-        agregarContactoUI(
-            nombre,
-            telefono,
-            indice
-        )
-
-        cantidadContactos++
+        }
     }
 
-    private fun abrirContactos() {
+    // ---------------- CONTACTO PICK ----------------
 
+    private fun abrirContactos() {
         val intent = Intent(
             Intent.ACTION_PICK,
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI
         )
-
         startActivityForResult(intent, 200)
     }
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 200 && resultCode == RESULT_OK) {
 
-            val contactUri = data?.data ?: return
+            val uri = data?.data ?: return
 
-            val cursor = contentResolver.query(
-                contactUri,
-                null,
-                null,
-                null,
-                null
-            )
+            val cursor = contentResolver.query(uri, null, null, null, null)
 
-            cursor?.moveToFirst()
+            cursor?.use {
 
-            val nombreIndex =
-                cursor?.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-                )
+                if (!it.moveToFirst()) return
 
-            val numeroIndex =
-                cursor?.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.NUMBER
-                )
+                val nombreIndex =
+                    it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
 
-            val nombre =
-                cursor?.getString(nombreIndex ?: 0)
+                val numeroIndex =
+                    it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
 
-            val numero =
-                cursor?.getString(numeroIndex ?: 0)
+                val nombre = it.getString(nombreIndex)
+                val numero = it.getString(numeroIndex)
 
-            if (nombre != null && numero != null) {
-
-                agregarContacto(nombre, numero)
+                if (!nombre.isNullOrEmpty() && !numero.isNullOrEmpty()) {
+                    guardarContacto(nombre, numero)
+                }
             }
-
-            cursor?.close()
         }
     }
 
+    // ---------------- GUARDAR ----------------
+
+    private fun guardarContacto(nombre: String, telefono: String) {
+
+        val slot = obtenerSlotLibre()
+
+        if (slot == -1) {
+            Toast.makeText(this, "No hay espacio", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val prefs = getSharedPreferences("SafeWalkContacts", MODE_PRIVATE)
+
+        prefs.edit()
+            .putString("contacto_${slot}_nombre", nombre)
+            .putString("contacto_${slot}_numero", telefono)
+            .apply()
+
+        agregarContactoUI(nombre, telefono, slot)
+
+        cantidadContactos++
+    }
+
+    // busca hueco libre real
+    private fun obtenerSlotLibre(): Int {
+
+        val prefs = getSharedPreferences("SafeWalkContacts", MODE_PRIVATE)
+
+        for (i in 1..3) {
+            val nombre = prefs.getString("contacto_${i}_nombre", null)
+            val numero = prefs.getString("contacto_${i}_numero", null)
+
+            if (nombre.isNullOrEmpty() || numero.isNullOrEmpty()) {
+                return i
+            }
+        }
+
+        return -1
+    }
+
+    // ---------------- LOAD ----------------
+
     private fun cargarContactosGuardados() {
 
-        val prefs =
-            getSharedPreferences(
-                "SafeWalkContacts",
-                MODE_PRIVATE
-            )
+        val prefs = getSharedPreferences("SafeWalkContacts", MODE_PRIVATE)
+
+        cantidadContactos = 0
+        contactsContainer.removeAllViews()
 
         for (i in 1..3) {
 
-            val nombre =
-                prefs.getString(
-                    "contacto_${i}_nombre",
-                    null
-                )
+            val nombre = prefs.getString("contacto_${i}_nombre", null)
+            val numero = prefs.getString("contacto_${i}_numero", null)
 
-            val numero =
-                prefs.getString(
-                    "contacto_${i}_numero",
-                    null
-                )
-
-            if (
-                !nombre.isNullOrEmpty() &&
-                !numero.isNullOrEmpty()
-            ) {
-
-                agregarContactoUI(
-                    nombre,
-                    numero,
-                    i
-                )
-
+            if (!nombre.isNullOrEmpty() && !numero.isNullOrEmpty()) {
+                agregarContactoUI(nombre, numero, i)
                 cantidadContactos++
             }
         }
     }
 
-    private fun agregarContactoUI(
-        nombre: String,
-        telefono: String,
-        indice: Int
-    ) {
+    // ---------------- UI ----------------
 
-        val contactView = layoutInflater.inflate(
-            R.layout.item_contact,
-            null
-        )
+    private fun agregarContactoUI(nombre: String, telefono: String, indice: Int) {
 
-        val txtName =
-            contactView.findViewById<TextView>(R.id.txtContactName)
+        val view = layoutInflater.inflate(R.layout.item_contact, null)
 
-        val txtPhone =
-            contactView.findViewById<TextView>(R.id.txtContactPhone)
-
-        val btnCall =
-            contactView.findViewById<Button>(R.id.btnCall)
-
-        val btnDelete =
-            contactView.findViewById<ImageButton>(R.id.btnDelete)
+        val txtName = view.findViewById<TextView>(R.id.txtContactName)
+        val txtPhone = view.findViewById<TextView>(R.id.txtContactPhone)
+        val btnCall = view.findViewById<Button>(R.id.btnCall)
+        val btnDelete = view.findViewById<ImageButton>(R.id.btnDelete)
 
         txtName.text = nombre
         txtPhone.text = telefono
 
-        // LLAMADA AUTOMÁTICA
         btnCall.setOnClickListener {
-
-            val intent = Intent(
-                Intent.ACTION_CALL,
-                Uri.parse("tel:$telefono")
-            )
-
-            startActivity(intent)
+            startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:$telefono")))
         }
 
-        // ELIMINAR
         btnDelete.setOnClickListener {
 
-            val prefs =
-                getSharedPreferences(
-                    "SafeWalkContacts",
-                    MODE_PRIVATE
-                )
+            val prefs = getSharedPreferences("SafeWalkContacts", MODE_PRIVATE)
 
             prefs.edit()
                 .remove("contacto_${indice}_nombre")
                 .remove("contacto_${indice}_numero")
                 .apply()
 
-            contactsContainer.removeView(contactView)
-
+            contactsContainer.removeView(view)
             cantidadContactos--
 
-            Toast.makeText(
-                this,
-                "Contacto eliminado",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Eliminado", Toast.LENGTH_SHORT).show()
         }
 
-        contactsContainer.addView(contactView)
+        contactsContainer.addView(view)
     }
-
 }

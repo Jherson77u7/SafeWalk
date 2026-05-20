@@ -4,8 +4,9 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
@@ -15,56 +16,84 @@ class MainActivity : AppCompatActivity() {
 
     private var esPremium = false
 
+    private lateinit var tvContactosCount: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // obtener estado premium
         esPremium = intent.getBooleanExtra("premium", false)
 
+        initViews()
         verificarPermisoMicrofono()
+        setupListeners()
+        actualizarContadorContactos()
 
-        val btnNav = findViewById<CardView>(R.id.btnNav)
-        val btnVoice = findViewById<CardView>(R.id.btnSOSManual)
-        val btnContacts = findViewById<CardView>(R.id.btnContactos)
-        val navZonas = findViewById<LinearLayout>(R.id.navZonas)
+        mostrarEstadoUsuario()
+    }
 
-        if (esPremium) {
-            Toast.makeText(this, "⭐ Usuario Premium", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this, "👤 Modo invitado", Toast.LENGTH_LONG).show()
+    // ---------------- INIT ----------------
+
+    private fun initViews() {
+        tvContactosCount = findViewById(R.id.tvContactosCount)
+    }
+
+    // ---------------- UI STATE ----------------
+
+    private fun mostrarEstadoUsuario() {
+        Toast.makeText(
+            this,
+            if (esPremium) "⭐ Usuario Premium" else "👤 Modo invitado",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    // ---------------- LISTENERS ----------------
+
+    private fun setupListeners() {
+
+        findViewById<CardView>(R.id.btnNav).setOnClickListener {
+            startActivity(Intent(this, RutaActivity::class.java))
         }
 
-        // Ruta segura
-        btnNav.setOnClickListener {
-            val intent = Intent(this, RutaActivity::class.java)
-            startActivity(intent)
+        findViewById<CardView>(R.id.btnSOSManual).setOnClickListener {
+            startActivity(Intent(this, VoiceEmergencyActivity::class.java))
         }
 
-        // Emergencia por voz
-        btnVoice.setOnClickListener {
-            val intent = Intent(this, VoiceEmergencyActivity::class.java)
-            startActivity(intent)
+        findViewById<CardView>(R.id.btnContactos).setOnClickListener {
+            startActivity(Intent(this, TrustedContactsActivity::class.java))
         }
 
-        // Contactos de confianza
-        btnContacts.setOnClickListener {
-            val intent = Intent(this, TrustedContactsActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Zonas seguras
-        navZonas.setOnClickListener {
-            val intent = Intent(this, ZonasActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Ejemplo premium (bloqueo futuro)
-        if (!esPremium) {
-            // aquí puedes desactivar features premium
-            // btnPremium.isEnabled = false
+        findViewById<LinearLayout>(R.id.navZonas).setOnClickListener {
+            startActivity(Intent(this, ZonasActivity::class.java))
         }
     }
+
+    // ---------------- CONTACTOS ----------------
+
+    private fun actualizarContadorContactos() {
+        val cantidad = obtenerCantidadContactos()
+        tvContactosCount.text = "Contactos: $cantidad/3"
+    }
+
+    private fun obtenerCantidadContactos(): Int {
+        val prefs = getSharedPreferences("SafeWalkContacts", MODE_PRIVATE)
+
+        var count = 0
+
+        for (i in 1..3) {
+            val nombre = prefs.getString("contacto_${i}_nombre", null)
+            val numero = prefs.getString("contacto_${i}_numero", null)
+
+            if (!nombre.isNullOrEmpty() && !numero.isNullOrEmpty()) {
+                count++
+            }
+        }
+
+        return count
+    }
+
+    // ---------------- PERMISSIONS ----------------
 
     private fun verificarPermisoMicrofono() {
         if (ContextCompat.checkSelfPermission(
@@ -78,5 +107,12 @@ class MainActivity : AppCompatActivity() {
                 100
             )
         }
+    }
+
+    // ---------------- LIFECYCLE ----------------
+
+    override fun onResume() {
+        super.onResume()
+        actualizarContadorContactos()
     }
 }

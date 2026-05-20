@@ -9,22 +9,29 @@
     android:padding="30dp"
     android:background="@drawable/bg_voice">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- HEADER (LOGO + TEXTO) -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SAFEWALK"
-        android:textColor="#FFFFFF"
-        android:textSize="34sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seguridad inteligente urbana"
-        android:textColor="#94A3B8"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logoappmovil"
+            android:contentDescription="SafeWalk Logo" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seguridad inteligente urbana"
+            android:textColor="#94A3B8"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- LOGIN -->
     <EditText
         android:id="@+id/edtUser"
         android:layout_width="match_parent"
