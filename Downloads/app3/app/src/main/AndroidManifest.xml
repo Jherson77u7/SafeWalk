@@ -34,13 +34,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".LoginActivity"/>
+
+        <!-- 2. El MainActivity queda como pantalla secundaria -->
         <activity android:name=".ZonasActivity" android:exported="false" />
 
         <activity android:name=".TrustedContactsActivity"/>
 
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".VoiceEmergencyActivity"

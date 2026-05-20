@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         // Lógica del temporizador: 2000 milisegundos = 2 segundos
         Handler(Looper.getMainLooper()).postDelayed({
             // Crea la "intención" de ir desde esta pantalla a la principal (MainActivity)
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
 
             // Finaliza el Splash para que si el usuario da "atrás", no vuelva al logo
