@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".LoginActivity"/>
+
         <!-- 2. El MainActivity queda como pantalla secundaria -->
         <activity
             android:name=".MainActivity"
